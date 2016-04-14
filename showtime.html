@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+<title>当前系统时间</title>
+<link rel="stylesheet" href="style.css"  />
+<script language="javascript" type="text/javascript">
+
+  window.onload = function(){
+    showTime();
+    leftTime();
+  }
+  function checkTime(i){  //补位处理
+    if(i<10)
+    {
+        return '0'+i;
+    }
+    else
+    {
+      return i;
+    }
+  }
+  function showTime(){
+    var now = new Date();
+    var year= now.getFullYear();
+    var month= now.getMonth()+1;
+    var day=  now.getDay();
+    var h= now.getHours();
+    var m=  now.getMinutes();
+    var s=  now.getSeconds();
+    m=checkTime(m);
+    s=checkTime(s);
+    var weekday=new Array(7)
+    weekday[0]="星期日";
+    weekday[1]="星期一";
+    weekday[2]="星期二";
+    weekday[3]="星期三";
+    weekday[4]="星期四";
+    weekday[5]="星期五";
+    weekday[6]="星期六";
+    document.getElementById("show").innerHTML=""+year+"年"+month+"月"+day+"日 "+weekday[day]+h+":"+m+":"+s;
+    setInterval('showTime()',500);
+  }
+  function leftTime(){
+    var starttime = new Date();
+    var endingtime = new Date(2016,4,17,13,45,59);
+    var lefttime = parseInt((endingtime-starttime)/1000);
+    var day = parseInt(lefttime/(60*60*24));
+    var hours = parseInt(lefttime/(60*60)%24);
+    var min = parseInt(lefttime/60%60);
+    var seconds = parseInt(lefttime%60);
+    document.getElementById("left").innerHTML = "剩余"+day+"天"+hours+"小时"+min+"分钟"+seconds+"秒";
+    setInterval('leftTime()',500);
+  }
+</script>
+</head>
+<body>
+<div class="content1">
+  <div id = "show">当前时间</div>
+  <div id = "left"></div>
+</div>
+</body>
+</html>

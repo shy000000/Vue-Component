@@ -1,1 +1,63 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+	<title>弹幕</title>
+	<meta charset="utf-8"/>
+	<script src = "jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+	<div id = "content">
+
+	</div>
+	<input type = "text" id = "danmu">
+	<select id = "slc">
+		<option value = "color">彩色</option>
+		<option value = "normal">普通</option>
+	</select>
+	<select id = "slt"> 
+		<option value="top">上方</option>
+		<option value="bottom">下方</option>
+		<option value="left">左边</option>
+	</select>
+	<button type = "button" id = "btn" >提交</button>
+	<script>
+		$(document).ready(function(){
+			$('#btn').click(function(){
+				$('#btn').attr('disabled',true);
+				//定时器 设置发言CD
+				setTimeout("$('#btn').attr('disabled',false)",1000);
+				//常量
+				var text = $('#danmu').val(),
+				 	length = text.length,
+					width = $('#content').css('width'),
+					position = $('#slt').val(),
+					speed = 10000+length*200;
+				//选择弹幕位置
+				switch(position)
+				{
+					case 'top':
+						$('#content').append("<span class = 'alt' id = 'ali' style='display:none'>"+text+"</span>");
+						$('#ali').fadeIn();
+						setTimeout("$('#ali').remove()",3000);
+						break;
+					case 'bottom':
+						$('#content').css('text-align','center');
+						$('#content').append("<span class = 'alb' id = 'ali' style='display:none'>"+text+"</span>");
+						$('#ali').fadeIn();
+						setTimeout("$('#ali').remove()",3000);
+						break;
+					case 'left':
+						$('#content').css('text-align','none');
+						$('#content').append("<span class = 'all' id = 'ali'>"+text+"</span>");
+						var r = Math.random()*300;
+						$('.all').css('margin-top',r+"px");
+						$('#ali').animate({left:width},speed,function(){$(this).remove()});
+						break;
+				}
+			})
+		});
+	</script>
+</body>
+</html>

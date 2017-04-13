@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>VR demo</title>
+</head>
+<body>
+	<script src="three.js"></script>
+	<script>
+		const PI = Math.PI;
+		/*初始化场景*/
+		const scene = new THREE.Scene();
+		/*初始化相机*/
+		const camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,2000);
+		/*初始化渲染器*/
+		const renderer = new THREE.WebGLRenderer({
+			antialias:true
+		});
+		renderer.shadowMapEnabled = true;
+		/*环境光*/
+		const light = new THREE.AmbientLight(0x404040);
+		/*点光源*/
+		const pointlight = new THREE.PointLight(0xddddaa,3,500);
+		/*基础类*/
+		class planet{
+			/*@params radius:半径 distance:距离 map:表面纹理图 speed:公转速度 color:简单着色 */
+			constructor(name,radius,distance,animateSpeed,color,mapUrl){
+				this.name = name;
+				this.radius = radius;
+				this.distance = distance;
+				this.mapUrl = mapUrl;
+				this.animateSpeed = animateSpeed;
+				this.color = color;
+			}
+			/*初始化球体函数 每个球面默认切割为32个三角形*/	
+			init(){
+				/*球体几何模型*/
+				var Sphere = new THREE.SphereGeometry(this.radius,100,100);
+				/*基础着色与表面纹理截图*/
+				var map = this.mapUrl?THREE.ImageUtils.loadTexture(this.mapUrl):'';
+				if(this.name=='Sun'){
+					var material = new THREE.MeshLambertMaterial({
+						emissive:0xdd4422,
+						map:map||''
+					})
+				}else{
+					var material = new THREE.MeshLambertMaterial({
+						color:this.color,
+						map:map||''
+					})
+				}
+				this.star = new THREE.Mesh(Sphere,material);
+				this.star.name = this.name;
+				this.star.position.x = -this.distance;
+				this.star.angle = 0;
+				this.star.receiveShadow = true;
+        		this.star.castShadow = true;
+				return this.star
+			}
+			/*公转动画  地球 太阳添加自转动画*/
+			rotation(){
+				this.star.angle += this.animateSpeed;
+		        if (this.star.angle > Math.PI * 2) {
+		            this.star.angle -= Math.PI * 2;
+		        }
+		        if(this.star.name=='Sun'){
+		        	this.star.rotation.y += PI/240;
+		        }else if(this.star.name =='Earth'){
+		        	this.star.rotation.y +=PI/240;
+		        }
+		        this.star.position.x = -this.distance * Math.cos(this.star.angle);
+		        this.star.position.z = this.distance * Math.sin(this.star.angle);
+			}	
+		}
+		//设置点光源
+		console.log(pointlight);
+		//渲染器设置
+		renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+		//添加环境光
+		scene.add(light);
+		//添加点光源
+		scene.add(pointlight);
+		//设置相机位置
+		camera.position.set(0,120,300);
+    	camera.lookAt(new THREE.Vector3(0,0,0));
+		var starObj = {
+			//太阳 配置参数发射光
+			Sun:new planet('Sun',40,0,PI/240,'0xFFD700','./sun3.jpg'),
+			//水星
+			Mercury:new planet('Mercury',30,100,PI/240,'0x84c1ff','./mercury.jpg'),
+			//金星
+			Venus:new planet('Venus',30,100,PI/240,'0x84c1ff','./mercury.jpg'),
+			//地球
+			Earth:new planet('Earth',20,200,PI/240,'0x2E4577','./earth_7710f55.jpg'),
+			//火星
+			Saturn:new planet('Saturn',15,-100,PI/240,'0xCD853F','./saturn.jpg'),
+			//
+		}
+		for(x in starObj){
+			scene.add(starObj[x].init());
+		}
+		function render(){
+			for(x in starObj){
+				if(x=='Earth'||x=='Sun'){
+					starObj[x].rotation.y+=PI/360;
+				}
+				starObj[x].rotation();
+			}
+			requestAnimationFrame(render);
+			renderer.render(scene,camera);
+		}
+		render();
+	</script>
+</body>
+</html>
+	

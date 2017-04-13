@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+</head>
+<body>
+    <img src="./images/u1.jpg" alt="">
+    <canvas id="canvas"></canvas>
+    <script>
+        window.onload = function(){
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            class PS{
+                constructor(img){
+                    this.img = img;
+                    this.width = img.width;
+                    this.height = img.height;
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img,0,0);
+                    this.imgData = ctx.getImageData(0,0,this.width,this.height);
+                }
+                getImgData(){
+                    return new Object(this.imgData);
+                }
+                //灰度滤镜
+                gray(){
+                    var imgData = this.getImgData(),
+                        data = imgData.data;
+                    for(let i=0;i<data.length;i+=4){
+                        let gray = data[i]*0.299+data[i+1]*0.587+data[i+1]*0.114;
+                        data[i] = data[i+1] = data[i+2] = gray;
+                    }
+                    ctx.putImageData(imgData,0,0);
+                }
+                //反色滤镜
+                inverse(){
+                    var imgData = this.getImgData(),
+                        data = imgData.data;
+                    for(let i =0;i<data.length;i+=4){
+                        data[i] = 255-data[i];
+                        data[i+1] = 255-data[i+1];
+                        data[i+2] = 255-data[i+2];
+                    }
+                    ctx.putImageData(imgData,0,0);
+                }
+                //黑白滤镜
+                black(){
+                    var imgData = this.getImgData(),
+                        data = imgData.data;
+                    for(let i=0;i<data.length;i+=4){
+                        let R = data[i];
+                        let G = data[i+1];
+                        let B = data[i+2];
+                        if((R+G+B)>=300){
+                            data[i]=data[i+1]=data[i+2] = 255;
+                        }else{
+                            data[i]=data[i+1]=data[i+2] = 0;
+                        }   
+                        data[i+3]=255;
+                    }
+                    ctx.putImageData(imgData,0,0);
+                }
+            }
+            var img = new Image();
+            img.src = './images/u1.jpg';
+            img.onload = function(){
+                new PS(img).black();
+            }
+        }
+    </script>
+</body>
+</html>

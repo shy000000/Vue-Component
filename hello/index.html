@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>亲物博客</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" /><!-- 禁止纯数字按钮点击就拨号 -->
+    <meta name="apple-touch-fullscreen" content="YES" />
+    <script>
+        function autoFontSize(){
+             var font_size = document.documentElement.clientWidth/750.0*100;
+             font_size = font_size >= 50 ? font_size : 50;
+             var html = document.getElementsByTagName('html')[0];
+             html.style.fontSize = font_size+'px';
+         }
+         window.onresize = function(){autoFontSize()};
+         autoFontSize();//设置初始字体：root em
+    </script>
+    <script type="text/javascript" src="http://s.thsi.cn/js/m/common/zepto.js"></script>
+</head>
+  <body>
+    <div id="app">
+        
+    </div>
+    <script src="/dist/build.js"></script>
+  </body>
+</html>

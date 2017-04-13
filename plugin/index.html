@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html class="webp-hack"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Share Your Memory</title>
+	<meta name="from" content="git:TEST/test-vr-2161130">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="applicable-device" content="mobile"> 
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="styles/index.css">
+    <!--页面直接引用less文件-->
+    <!-- <link rel="stylesheet" data-webporiginal="http://test.nie.163.com/test_cdn/test/m/qt/20161130144455/css/index_aa7363c.css" data-webpnew="http://test.nie.163.com/test_cdn/test/m/qt/20161130144455/css/index_aa7363c_webp.css" href="./VR demo_files/index_aa7363c_webp.css"><style>.webp-hack{display: none;}</style><script>!function(){function e(e){var t="UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==",n=new Image;n.onload=function(){var t=n.width>0&&n.height>0;window.__isWebp=!0,e(t)},n.onerror=function(){window.__isWebp=!1,e(!1)},n.src="data:image/webp;base64,"+t}function t(e,t){for(var n=t.length;n--;)!t[n].getAttribute(e)&&t[n].getAttribute(i)&&t[n].setAttribute(e,t[n].getAttribute(i))}function n(e){if(!(o.push(e)>1))if(a.addEventListener)a.addEventListener("DOMContentLoaded",function(){a.removeEventListener("DOMContentLoaded",arguments.callee,!1),e()},!1);else if(a.attachEvent){var t=!1;try{t=null==window.frameElement}catch(n){}a.documentElement.doScroll&&t&&!function(){try{a.documentElement.doScroll("left"),e()}catch(t){setTimeout(arguments.callee,0)}}()}}var i,o=[],a=document;e(function(e){i=e?"data-webpNew":"data-webpOriginal",t("href",document.getElementsByTagName("link")),n(function(){t("src",document.getElementsByTagName("img")),t("href",document.getElementsByTagName("link"))})})}();</script> -->
+</head>
+<style>
+    [v-cloak]:{
+        display: none;
+    }
+</style>
+<body>
+    <div class="wrapper">
+        <!-- <div class="mask"></div> -->
+        <div class="dirlog" v-show="dirlogSeen" v-cloak>
+            <div class="dirlog-img">
+                <img src="images/earth.jpg" alt="">
+            </div>
+            <div class="dirlog-content">
+                <div class="dirlog-message">
+                    Its so lucky that we can share our memory  
+                </div>
+                <div class="dirlog-sub-message">
+                   <span>I remember</span>you can 
+                </div>
+                <div class="dirlog-logo"></div>
+            </div>
+        </div>
+        <canvas id="main-canvas" width="1920" height="900" style="background: rgb(0, 0, 0); width: 1920px; height: 900px;" v-bind:class="{opacity: isopacity}"></canvas>
+    </div>
+    <script src="./src/zepto.js"></script>
+    <script src="./src/three.min.js"></script>
+    <script src="./src/DeviceOrientationControls.js"></script>
+    <script src="./src/OrbitControls.js"></script>
+    <script src="./src/StereoEffect.js"></script>
+    <script src="./src/vue.js"></script>
+    <script src="./src/index.js"></script>
+</body></html>

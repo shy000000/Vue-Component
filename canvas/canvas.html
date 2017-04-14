@@ -5,12 +5,26 @@
     <title>Canvas</title>
 </head>
 <body>
-    <img src="./images/u1.jpg" alt="">
+    <img src="./images/u2.jpg" alt="">
     <canvas id="canvas"></canvas>
+    <div id="txt"></div>
+    <style>
+        p{
+            height: 12px;
+        }
+        * {margin: 0;padding: 0;}
+        body {font-size: 12px; margin: 10px; font-family: simsun; background: #fff;}
+        p { height: 12px;}
+        p.ts { margin: 10px 0 0 0; width: 500px; float: left;}
+        span {width: 12px;}
+        #cv, #txt {float: left;}
+        #cv { margin-right: 5px;}
+    </style>
     <script>
         window.onload = function(){
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
+            const txtDiv = document.getElementById('txt');
             class PS{
                 constructor(img){
                     this.img = img;
@@ -62,11 +76,60 @@
                     }
                     ctx.putImageData(imgData,0,0);
                 }
+                //返回字符
+                getText(g){
+                    if (g <= 30) {
+                        return '#';
+                    } else if (g > 30 && g <= 60) {
+                        return '.';
+                    } else if (g > 60 && g <= 120) {
+                        return '$';
+                    }  else if (g > 120 && g <= 150) {
+                        return '*';
+                    } else if (g > 150 && g <= 180) {
+                        return 'o';
+                    } else if (g > 180 && g <= 210) {
+                        return '!';
+                    } else if (g > 210 && g <= 240) {
+                        return ';';
+                    }  else {
+                        return '&nbsp;';
+                    }
+                }
+                //返回灰度
+                getGray(R,G,B){
+                    return 0.299*R+0.578*G+0.114*B;
+                }
+                //字符画
+            	toText(){
+                    var imgData = this.getImgData(),
+                        data = imgData.data,
+                        html = '';
+                     for (let h = 0; h < this.height; h += 12) {
+                        var p = '<p>';
+                        for (let w = 0; w < this.width; w += 3) {
+                            var index = (w + this.width * h) * 4;
+                            var r = data[index + 0];
+                            var g = data[index + 1];
+                            var b = data[index + 2];
+                            var gray = this.getGray(r, g, b);
+                            p += this.getText(gray);
+                        }
+                        p += '</p>';
+                        html += p;
+                    }
+                    txtDiv.innerHTML = html;
+                    p+='</p>';
+                    html+=p;
+                    txtDiv.innerHTML = html;
+                }
             }
             var img = new Image();
-            img.src = './images/u1.jpg';
+            img.src = './images/u2.jpg';
             img.onload = function(){
-                new PS(img).black();
+                txtDiv.style.width = img.width+'px';
+                txtDiv.style.height = img.height+'px';
+                new PS(img).toText();
             }
         }
     </script>

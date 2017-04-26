@@ -1,16 +1,48 @@
 nie.define(function() {
+    Vue.config.devtools = true;
     /*Vue*/
     var wrapper = new Vue({
         el:'.wrapper',
         data:{
             isopacity:false,
             isClick:false,
-            dirlogSeen:false
+            dirlogSeen:true,
+            dirlogOpacity:0,
+            dirlogHeight:0,
+            dirlogIndex:0,
+            imgSrc:'',
+            rotateY:'translate(-50%,-50%) rotateY(0deg)',
+            rotateY2:'translate(-50%,-50%) rotateY(-180deg)',
+            backdirlogSeen:true,
+            dirlogOpacity2:0,
+            dirlogHeight2:0,
+            dirlogIndex2:0
+        },
+        computed:{
+            maskSeen(){
+                return this.dirlogOpacity===0?false:true;
+            }
+        },
+        methods:{
+            dirlogHide(){
+                var self = this;
+                this.dirlogOpacity = 0;
+                this.dirlogHeight = 0;
+                this.dirlogOpacity2 = 0;
+                this.dirlogHeight2 = 0;
+                this.rotateY = 'translate(-50%,-50%) rotateY(0deg)';
+                this.rotateY2 = 'translate(-50%,-50%) rotateY(-180deg)';
+            },
+            dirlogUpload(){
+                this.backdirlogSeen = true;
+                this.rotateY = 'translate(-50%,-50%) rotateY(180deg)',
+                this.rotateY2 = 'translate(-50%,-50%) rotateY(0deg)'
+            }
         }
     })
-    //最近距离
+    //相机最近距离
     const near =1;
-    //最远距离
+    //相机最远距离
     const far = 1000;
     //相机距离场景长度
     var fov = 45;
@@ -34,21 +66,44 @@ nie.define(function() {
           var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
           var intersects = raycaster.intersectObjects(scene.children);
           if (intersects.length > 0) {
+            console.log(intersects);
             var selected = intersects[0];//取第一个物体
-            /*wrapper.isClick?wrapper.dirlogSeen = true:'';
-            wrapper.isClick?wrapper.isopacity = true:wrapper.isClick=true;*/
-            showdirlog(selected);//显示弹窗
+            localStorage.getItem('usrid')?showloginlog():showdirlog(selected);//显示行星弹窗
         }
     }
+    /*显示弹窗*/
     function showdirlog(obj){
-        console.log(obj.object);
+        console.log(obj);
+        wrapper.dirlogSeen = true;
+        wrapper.dirlogOpacity = 1;
+        wrapper.dirlogHeight = '45%';
+        wrapper.dirlogIndex = 200;
+        wrapper.dirlogSeen2 = true;
+        wrapper.dirlogOpacity2 = 1;
+        wrapper.dirlogHeight2 = '45%';
+        wrapper.dirlogIndex2 = 200;
+        $.ajax({
+            url:'http://localhost/test/test/plugin/php/imgSrc.php',
+            data:{
+                name:obj.object.name
+            },
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                wrapper.imgSrc = data.imgSrc;
+                wrapper.message = data.content;
+            },
+            error:function(e){
+                console.log(e.msg);
+            }
+        })
     }
     const canvas = document.querySelector('#main-canvas');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     canvas.style.background = '#000';
     /*画布点击全屏*/
-    canvas.addEventListener('click',function(){
+    /*canvas.addEventListener('click',function(){
         wrapper.maskSeen = true;
         if (canvas.requestFullscreen) {
             canvas.requestFullscreen();
@@ -61,7 +116,7 @@ nie.define(function() {
         } else if(canvas.webkitEnterFullscreen){
             canvas.webkitEnterFullscreen();
         }
-    },false);
+    },false);*/
     var renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         antialias : true
@@ -83,7 +138,6 @@ nie.define(function() {
     controls.noPan = true;
     controls.noZoom = true;
     function setOrientationControls(e){
-        console.log(e)
         if (e.alpha) {
             controls = new THREE.DeviceOrientationControls(camera, true);
             controls.connect();

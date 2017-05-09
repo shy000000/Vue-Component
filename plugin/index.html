@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html class="webp-hack"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html><head><meta charset="UTF-8">
     <title>Share Your Memory</title>
-	<meta name="from" content="git:TEST/test-vr-2161130">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="format-detection" content="address=no">
-    <meta name="applicable-device" content="mobile"> 
-    <meta http-equiv="Cache-Control" content="no-transform">
-    <meta http-equiv="Cache-Control" content="no-siteapp">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+	<!-- <meta name="from" content="git:TEST/test-vr-2161130">
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="format-detection" content="address=no">
+        <meta name="applicable-device" content="mobile"> 
+        <meta http-equiv="Cache-Control" content="no-transform">
+        <meta http-equiv="Cache-Control" content="no-siteapp">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui"> -->
     <link rel="stylesheet" href="styles/index.css">
 </head>
 <style>
@@ -30,6 +29,7 @@
                 <p class="dirlog-message">
                     {{message}}  
                 </p>
+                <input type="file" name="file" class="element" accept="image/*"/>
                 <div class="dirlog-upload" @click="dirlogUpload">
                     Share Your memory
                 </div>
@@ -41,17 +41,35 @@
         <div class="back-dirlog" :style="{transform:rotateY2,opacity:dirlogOpacity2,height:dirlogHeight2,zIndex:dirlogIndex2}" v-cloak>
             <div class="fl">
                 <div class="back-dirlog-top">
-                    <canvas id="img-canvas" width="500" height="300"></canvas>       
+                    <canvas id="img-canvas" width="500" height="400"></canvas>       
                 </div>
                 <div class="back-dirlog-menu">
-                    <li>原图</li>
-                    <li>黑白</li>
-                    <li>反色</li>
-                    <li>灰度</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
                 </div>
             </div>       
-            <div class="back-dirlog-img">
+            <!-- <div class="back-dirlog-img">
                 <input type="file" name="file" />
+            </div> -->
+            <div class="dirlog-hidebtn" @click="dirlogHide">
+                X
+            </div>
+        </div>
+        <div class="login-dirlog" :class="{tlogin:isLogin}">
+            <div class="login-top">
+                <div class="login-fl" :class="{active:isActive}">
+                    登录/注册
+                </div>
+                <div class="login-form">
+                    <input type="text" id="username" placeholder="用户名" v-model="user">
+                    <br/>
+                    <input type="password" id="password" placeholder="密码" v-model="password">
+                    <br/>
+                    <button id="login" @click = "loginre(2,1)">登录</button>
+                    <button id="login" @click = "loginre">注册</button>
+                </div>
             </div>
             <div class="dirlog-hidebtn" @click="dirlogHide">
                 X
@@ -65,5 +83,7 @@
     <script src="./src/OrbitControls.js"></script>
     <script src="./src/StereoEffect.js"></script>
     <script src="./src/vue.js"></script>
+    <script src="./src/canvas.js"></script>
     <script src="./src/index.js"></script>
-</body></html>
+</body>
+</html>

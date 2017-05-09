@@ -1,4 +1,20 @@
+window.onload = function(){
+    const ca = document.querySelector('#img-canvas');
+    const ctx2 = ca.getContext('2d');
+    const upload = document.getElementById('img-upload');
+    const btn = document.getElementsByClassName('dirlog-upload')[0];
+    btn.onclick = function(){
+        $('#img-upload').click();
+    }
+    var img = new Image();
+    img.src = './images/sun.jpg';
+    /*img.onload = function(){
+        ctx2.drawImage(img,0,0);
+    }*/
+    ctx2.drawImage(img,0,0,500,400);
+}
 nie.define(function() {
+    /*图像处理部分*/
     Vue.config.devtools = true;
     /*Vue*/
     var wrapper = new Vue({
@@ -16,7 +32,9 @@ nie.define(function() {
             backdirlogSeen:true,
             dirlogOpacity2:0,
             dirlogHeight2:0,
-            dirlogIndex2:0
+            dirlogIndex2:0,
+            isLogin:false,
+            isActive:true
         },
         computed:{
             maskSeen(){
@@ -24,19 +42,66 @@ nie.define(function() {
             }
         },
         methods:{
-            dirlogHide(){
+            loginre(e,id){
+                console.log(id);
+                let user = this.user;
+                let password = this.password;
                 var self = this;
+                $.ajax({
+                    url:'http://localhost/test/test/plugin/php/user.php',
+                    data:{
+                        username:user,
+                        password:password,
+                        type:id?'login':''
+                    },
+                    success:function(data){
+                        var data = JSON.parse(data);
+                        switch(data.errorcode){
+                            case 0:alert('登录成功');sessionStorage.setItem('user',user);break;
+                            case -1:alert('密码错误');break;
+                            case 1:alert('注册成功');sessionStorage.setItem('user',user);break;
+                            case -99:alert('网络异常');break;
+                            case -2:alert('用户名已存在');break;
+                        }
+                        /*self.dirlogOpacity = 0;
+                        self.dirlogHeight = 0;
+                        self.dirlogOpacity2 = 0;
+                        self.dirlogHeight2 = 0;
+                        self.rotateY = 'translate(-50%,-50%) rotateY(0deg)';
+                        self.rotateY2 = 'translate(-50%,-50%) rotateY(-180deg)';
+                        self.isLogin = true;*/
+                        self.backdirlogSeen = true;
+                        self.rotateY = 'translate(-50%,-50%) rotateY(180deg)',
+                        self.rotateY2 = 'translate(-50%,-50%) rotateY(0deg)'
+                    },
+                    error:function(){
+                        alert('网络异常')
+                    }
+                })
+            },
+            dirlogHide(){
                 this.dirlogOpacity = 0;
                 this.dirlogHeight = 0;
                 this.dirlogOpacity2 = 0;
                 this.dirlogHeight2 = 0;
                 this.rotateY = 'translate(-50%,-50%) rotateY(0deg)';
                 this.rotateY2 = 'translate(-50%,-50%) rotateY(-180deg)';
+                this.isLogin = false;
             },
             dirlogUpload(){
-                this.backdirlogSeen = true;
-                this.rotateY = 'translate(-50%,-50%) rotateY(180deg)',
-                this.rotateY2 = 'translate(-50%,-50%) rotateY(0deg)'
+                if(!sessionStorage.getItem('user')){
+                    this.isLogin = true;
+                }else{
+                    this.backdirlogSeen = true;
+                    this.rotateY = 'translate(-50%,-50%) rotateY(180deg)',
+                    this.rotateY2 = 'translate(-50%,-50%) rotateY(0deg)'
+                }
+            },
+            choosefile(){
+                var file = $('input',{type:'file'});
+                file.appendTo($('body'));
+                console.log(file);
+                file.click();
             }
         }
     })
@@ -68,19 +133,18 @@ nie.define(function() {
           if (intersects.length > 0) {
             console.log(intersects);
             var selected = intersects[0];//取第一个物体
-            localStorage.getItem('usrid')?showloginlog():showdirlog(selected);//显示行星弹窗
+            showdirlog(selected);//显示行星弹窗*/
         }
     }
     /*显示弹窗*/
     function showdirlog(obj){
-        console.log(obj);
         wrapper.dirlogSeen = true;
         wrapper.dirlogOpacity = 1;
-        wrapper.dirlogHeight = '45%';
+        wrapper.dirlogHeight = '400px';
         wrapper.dirlogIndex = 200;
         wrapper.dirlogSeen2 = true;
         wrapper.dirlogOpacity2 = 1;
-        wrapper.dirlogHeight2 = '45%';
+        wrapper.dirlogHeight2 = '500px';
         wrapper.dirlogIndex2 = 200;
         $.ajax({
             url:'http://localhost/test/test/plugin/php/imgSrc.php',

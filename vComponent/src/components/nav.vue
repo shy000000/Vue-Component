@@ -1,54 +1,56 @@
 <style type="text/css">
-
+    *{
+        margin:0px;
+        padding:0px;
+    }
+    .v-nav{
+        width: 100%;
+        background: #ffffff;
+        position: relative;
+        font-size: 18px;
+        margin: 0 auto;
+        border-bottom: 1px solid #cccccc;
+        box-sizing: content-box;
+        height: 60px;
+        line-height: 60px;
+    }
+    .v-nav-wrapper{
+        width: 1260px;
+    }
+    .v-main-nav{
+        width: 100%;
+    }
+    .v-main-nav>li{
+        padding:10px;
+        margin:0 15px;
+        height: 100%;
+        line-height: 100%;
+        box-sizing: content-box;
+    }
+    .v-main-nav>li:hover{
+        border-top: 3px solid #6190e8;
+        transition: all 0.3s;
+    }
+    .v-sub-nav{
+        transition: all 0.3s;
+        display: none;
+    }
 </style>
 <template>		
-    <!-- <el-menu :default-openeds="['1', '3']">
-      <el-submenu index="1">
-        <template slot="title"><i class="el-icon-message"></i>导航一</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title"><i class="el-icon-menu"></i>导航二</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-submenu index="3">
-        <template slot="title"><i class="el-icon-setting"></i>导航三</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="3-1">选项1</el-menu-item>
-          <el-menu-item index="3-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="3-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="3-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="3-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-    </el-menu> -->
+    <nav class="v-nav">
+        <div class="v-nav-wrapper">
+            <ul class="v-main-nav">
+                <li>组件列表</li>
+                <ul class="v-sub-nav">
+                    <li>音频播放器</li>
+                    <li>时间选择器</li>
+                    <li>表格</li>
+                </ul>
+                <li>技术博客</li>
+                <li>个人主页</li>        
+            </ul>
+        </div>
+    </nav>
 </template>
 <script>
 	import Vue from 'vue'

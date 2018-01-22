@@ -1,12 +1,8 @@
 <template>
   <div id="app">
-    <el-container style="height: 500px; border: 1px solid #eee">      
-        <el-aside style="width:200px">            
-            <nav-menu class="nav-menu"></nav-menu>
-        </el-aside>   
-    </el-container>            
-      <!-- <li><router-link to="/audio">音频</router-link></li>
-      <li><router-link to="/timeselect">日期选择器</router-link></li> -->
+        <nav-menu></nav-menu>       
+        <!-- <li><router-link to="/audio">音频</router-link></li>
+        <li><router-link to="/timeselect">日期选择器</router-link></li> -->
 <!--       <router-link></router-link> -->
     <router-view></router-view>
   </div>
